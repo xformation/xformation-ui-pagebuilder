@@ -1,0 +1,641 @@
+@import url('https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro@0ac23ca/css/all.css');
+
+html,
+body,
+#root {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background-color: #f9fafc;
+}
+
+a {
+    cursor: pointer;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    image-rendering: -webkit-optimize-contrast
+}
+
+.btn-primary{
+    background-color: #2662F0;
+    border-color: #2662F0;
+    font-size: 12px;
+    padding: 3px 25px;
+}
+
+.red {
+    color: red;
+}
+
+.editor-container {
+    display: flex;
+    margin: 0px;
+    width: calc(100% - 0px);
+    height: calc(100% - 0px);
+    overflow: hidden;
+}
+
+.editor-container .heading {
+    width: 100%;
+    position: fixed;
+    z-index: 2;
+    top: 0px;
+    background-color: #EFF2F7;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 32px;
+    color: #3B4859;
+    text-transform: uppercase;
+}
+
+.editor-container .page-heading {
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 32px;
+    background-color: #f9fafc;
+    border-bottom: 1px solid #e0eee0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.editor-container .page-heading h2 {
+    margin: 0px;
+    padding: 0px;
+    color: #3B4859;
+    font-size: 14px;
+    line-height: 26px;
+    font-weight: 500;
+    display: inline-block;
+    border-bottom: 2px solid #007CC2;
+}
+
+.editor-container .page-heading .preview-btn {
+    font-size: 12px;
+    padding: 3px 25px;
+}
+
+
+.editor-container .left-side {
+    width: 240px;
+    height: calc(100% - 80px);
+    overflow: hidden;
+    background-color: #3B7CFF26;
+    padding: 20px 10px;
+    border-radius: 0px;
+    box-shadow: 0px 2px 4px #EFF2F7;
+    position: fixed;
+    left: 0px;
+    top: 80px;
+    z-index: 1;
+}
+
+.editor-container .left-side ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    flex-wrap: wrap;
+}
+
+.editor-container .left-side ul li {
+    display: flex;
+    -ms-flex-line-pack: distribute !important;
+    align-content: space-around !important;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
+    width: 44%;
+    height: 84px;
+    margin: 0 5px 10px;
+    padding: 5px;
+    color: #ffffff;
+    cursor: pointer;
+    background-color: #3b7cff;
+}
+
+.editor-container .left-side ul li span {
+    display: block;
+    width: 100%;
+    padding-bottom: 5px;
+    font-size: 24px;
+    line-height: 28px;
+}
+
+.editor-container .left-side ul li p {
+    display: block;
+    width: 100%;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 400;
+    color: #ffffff;
+    margin: 0;
+}
+
+
+.editor-container .right-container {
+    width: calc(100% - 240px);
+    height: calc(100% - 80px);
+    margin-top: 80px;
+    margin-left: 240px;
+    margin-right: 0px;
+    padding-left: 25px;
+    padding-right: 50px;
+}
+
+.editor-container .right-container .content {
+    border-bottom: 1px solid #e0eee0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.editor-container .right-container .content .left-content h3 {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.editor-container .right-container .content .left-content p {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 17px;
+    margin-bottom: 0;
+    display: block;
+}
+
+.editor-container .right-container .content .left-content ul {
+    display: block;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.editor-container .right-container .content .left-content ul li {
+    display: flex;
+    width: 100%;
+    padding-bottom: 15px;
+}
+
+.editor-container .right-container .content .left-content ul li span {
+    width: 24px;
+    height: 24px;
+    background-color: #3B7CFF;
+    border-radius: 50%;
+    text-align: center;
+    display: inline-block;
+    color: #ffffff;
+    font-size: 12px;
+    line-height: 24px;
+    font-weight: 400;
+}
+
+.editor-container .right-container .content .left-content ul li p {
+    padding-left: 10px;
+    margin-bottom: 0;
+    font-size: 12px;
+    line-height: 24px;
+    color: #3B4859;
+    font-weight: 400;
+    display: inline-block;
+}
+
+.editor-container .right-container .content .right-content .editor-buttons {
+    background-color: #CEDBFA;
+    border-radius: 15px;
+    padding: 0px 10px;
+}
+
+.editor-container .right-container .content .right-content .editor-buttons i {
+    padding: 0px 7px;
+    font-size: 12px;
+    line-height: 32px;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.editor-container .right-container .content .right-content .paragraph-content {
+    position: relative;
+}
+
+.editor-container .right-container .content .right-content .paragraph-content .paragraph-toggle {
+    font-size: 12px;
+    color: #3B4859;
+    line-height: 32px;
+    font-weight: 400;
+    border-radius: 15px;
+    padding: 0px 10px 0 15px;
+    background-color: #CEDBFA;
+    margin-left: 10px;
+    cursor: pointer;
+    width: 180px;
+}
+
+.editor-container .right-container .content .right-content .paragraph-content .paragraph-toggle i {
+    font-size: 16px;
+    margin-left: 3px;
+    margin-top: 9px;
+    margin-right: 5px;
+    float: right;
+}
+
+.editor-container .right-container .content .right-content .paragraph-content .paragraph-contents {
+    background-color: #EFF2F7;
+    border: 1px solid #CEDBFA;
+    position: absolute;
+    right: 0;
+    top: 32px;
+    z-index: 1;
+    width: 400px;
+    height: auto;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.editor-container .right-container .content .right-content .paragraph-content .paragraph-contents .paragraph-content-left {
+    margin: 25px 20px;
+    background-color: #ffffff;
+    padding: 10px;
+    width: 198px;
+    min-height: 80px;
+}
+
+.editor-container .right-container .content .right-content .paragraph-content .paragraph-contents .paragraph-content-left h4 {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 14px;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.editor-container .right-container .content .right-content .paragraph-content .paragraph-contents .paragraph-content-left p {
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 14px;
+    margin-bottom: 0;
+    display: block;
+}
+
+.editor-container .right-container .content .right-content .paragraph-content .paragraph-contents .paragraph-content-left ul {
+    display: block;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    width: 100%;
+}
+
+.editor-container .right-container .content .right-content .paragraph-content .paragraph-contents .paragraph-content-left ul li {
+    display: flex;
+    width: 100%;
+    padding: 0;
+    padding-bottom: 15px;
+    background-color: #ffffff;
+}
+
+.editor-container .right-container .content .right-content .paragraph-content .paragraph-contents .paragraph-content-left ul li:hover {
+    background-color: #ffffff;
+}
+
+.editor-container .right-container .content .right-content .paragraph-content .paragraph-contents .paragraph-content-left ul li span {
+    width: 18px;
+    height: 18px;
+    background-color: #3B7CFF;
+    border-radius: 50%;
+    text-align: center;
+    display: inline-block;
+    color: #ffffff;
+    font-size: 10px;
+    line-height: 18px;
+    font-weight: 400;
+}
+
+.editor-container .right-container .content .right-content .paragraph-content .paragraph-contents .paragraph-content-left ul li p {
+    padding-left: 5px;
+    margin-bottom: 0;
+    font-size: 10px;
+    line-height: 14px;
+    color: #3B4859;
+    font-weight: 400;
+    display: inline-block;
+    width: 160px;
+}
+
+.editor-container .right-container .content .right-content .paragraph-content .paragraph-contents .paragraph-content-left .bulleted-list ul li span {
+    width: 10px;
+    height: 10px;
+    margin-right: 8px;
+    margin-top: 5px;
+}
+
+.editor-container .right-container .content .right-content .paragraph-content .paragraph-contents .paragraph-content-left .checkbox-list ul li span {
+    background-color: #ffffff;
+    border: 1px solid #3B7CFF;
+    border-radius: 0;
+}
+
+.editor-container .right-container .content .right-content .paragraph-content .paragraph-contents .paragraph-content-left .image-full-width {
+    margin: -10px -30px;
+}
+
+.editor-container .right-container .content .right-content .paragraph-content .paragraph-contents .paragraph-content-left .carousel-bullets {
+    margin-top: 5px;
+}
+
+.editor-container .right-container .content .right-content .paragraph-content .paragraph-contents .paragraph-content-left .carousel-bullets span {
+    width: 8px;
+    height: 8px;
+    background-color: #ffffff;
+    border: 1px solid #707070;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 3px;
+    position: relative;
+}
+
+.editor-container .right-container .content .right-content .paragraph-content .paragraph-contents .paragraph-content-left .carousel-bullets span.active::before {
+    content: "";
+    width: 4px;
+    height: 4px;
+    display: inline-block;
+    vertical-align: top;
+    background-color: #707070;
+    margin: 1px 0 0 1px;
+}
+
+
+.editor-container .right-container .content .right-content .paragraph-content .paragraph-contents .paragraph-content-left .text-on-image {
+    position: relative;
+}
+
+.editor-container .right-container .content .right-content .paragraph-content .paragraph-contents .paragraph-content-left .text-on-image .text {
+    top: 30px;
+    left: 35px;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.7);
+    width: 110px;
+    padding: 5px;
+    text-align: center;
+}
+
+.editor-container .right-container .content .right-content .paragraph-content .paragraph-contents ul {
+    background-color: #ffffff;
+    width: 160px;
+    padding: 5px 0;
+    margin: 0;
+}
+
+.editor-container .right-container .content .right-content .paragraph-content .paragraph-contents ul li {
+    background-color: #ffffff;
+    font-size: 12px;
+    font-weight: 400;
+    color: #3B4859;
+    line-height: 16px;
+    display: block;
+    padding: 7px 15px;
+    cursor: pointer;
+}
+
+.editor-container .right-container .content .right-content .paragraph-content .paragraph-contents ul li.active,
+.editor-container .right-container .content .right-content .paragraph-content .paragraph-contents ul li:hover {
+    background-color: #EFF2F7;
+}
+
+.editor-panel {
+    position: fixed;
+    right: -103%;
+    top: 80px;
+    z-index: 10;
+    width: 450px;
+    height: calc(100% - 80px);
+    background-color: #ffffff;
+    box-shadow: -3px 3px 6px #00000029;
+    padding: 20px 15px;
+    -webkit-transition: 1s;
+    -moz-transition: 1s;
+    -o-transition: 1s;
+    transition: 1s;
+}
+
+.editor-panel.show {
+    right: 0px;
+    -webkit-transition: 1s;
+    -moz-transition: 1s;
+    -o-transition: 1s;
+    transition: 1s;
+}
+
+.editor-panel .panel-heading {
+    border-bottom: 1px solid #D1D1D1;
+    padding-bottom: 5px;
+    margin-bottom: 2px;
+}
+
+.editor-panel .panel-heading h5 {
+    color: #3B4859;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+.editor-panel .panel-heading i {
+    color: #2662F0;
+    font-size: 14px;
+    line-height: 20px;
+    cursor: pointer;
+}
+
+.editor-panel .panel-tabs {
+    border: 1px solid #D3DFFC;
+    min-height: 350px;
+}
+
+.editor-panel .panel-tabs ul {
+    display: flex;
+    justify-content: center;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+.editor-panel .panel-tabs ul li {
+    display: inline-block;
+    text-align: center;
+    width: 50%;
+    color: #3B4859;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 10px 0;
+    background-color: #D3DFFC;
+}
+
+.editor-panel .panel-tabs ul li.active {
+    background-color: #ffffff;
+}
+
+.editor-panel .panel-tabs .panel-tab-contents {
+    padding: 20px 15px;
+}
+
+.editor-panel .panel-tabs .panel-tab-contents .tab-content {
+    border-bottom: 1px solid #DEE0E3;
+    position: relative;
+}
+
+.editor-panel .panel-tabs .panel-tab-contents .tab-content h6 {
+    font-size: 13px;
+    font-weight: 500;
+    color: #3B4859;
+    line-height: 18px;
+    display: block;
+}
+
+.editor-panel .panel-tabs .panel-tab-contents .tab-content p {
+    font-size: 11px;
+    font-weight: 400;
+    color: #3B4859;
+    line-height: 16px;
+    display: block;
+    margin-bottom: 7px;
+}
+
+.editor-panel .panel-tabs .panel-tab-contents .tab-content p span {
+    color: #BFBFBF;
+    font-size: 12px;
+}
+
+.editor-panel .panel-tabs .panel-tab-contents .tab-content .edit-btn {
+    font-size: 12px;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.editor-panel .panel-tabs .panel-tab-contents .tab-content .edit-btn i {
+    margin-right: 5px;
+}
+
+.editor-panel .panel-tabs .panel-tab-contents .tab-content i.fal {
+    cursor: pointer;
+}
+
+.editor-panel .panel-tabs .panel-tab-contents .add-new-item {
+    background-color: #2662F033;
+    font-size: 12px;
+    font-weight: 400;
+    color: #2662F0;
+    border-radius: 10px;
+}
+
+.editor-panel .panel-tabs .panel-tab-contents .add-new-item:focus {
+    box-shadow: none;
+    outline: none;
+    text-decoration: none;
+}
+
+.editor-panel .panel-tabs .panel-tab-contents .add-new-item:hover {
+    text-decoration: none;
+}
+
+
+.editor-panel .panel-tabs .panel-tab-contents .tab-content .content-alignment {
+    position: absolute;
+    left: 75px;
+    top: 90%;
+    width: 180px;
+    border-radius: 3px;
+    border: 1px solid #DEE0E3;
+    border-top: 3px solid #3B4859;
+    background-color: #ffffff;
+    padding: 0px 5px;
+}
+
+.editor-panel .panel-tabs .panel-tab-contents .tab-content .content-alignment .btn {
+    padding: 3px 0px;
+    font-size: 12px;
+    text-align: center;
+    width: 24px;
+}
+
+.editor-panel .panel-tabs .panel-tab-contents .tab-content .content-alignment .btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.editor-panel .panel-tabs .panel-tab-contents .tab-content .content-alignment .vertical-line {
+    cursor: default;
+}
+
+.editor-panel .panel-tabs .panel-tab-contents .tab-content .content-alignment .vertical-line .line {
+    display: inline-block;
+    vertical-align: middle;
+    width: 1px;
+    height: 14px;
+    background-color: #E6E2E2;
+}
+
+
+.editor-panel .panel-tabs .panel-tab-contents .tab-settings {
+    padding: 0 30px;
+}
+
+.editor-panel .panel-tabs .panel-tab-contents .tab-settings .form-group {
+    margin-bottom: 20px;
+}
+
+.editor-panel .panel-tabs .panel-tab-contents .tab-settings .form-group label {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    color: #3B4859;
+    display: block;
+    margin-bottom: .4rem;
+}
+
+.editor-panel .panel-tabs .panel-tab-contents .tab-settings .form-group .form-control {
+    font-size: 12px;
+    border-radius: 30px;
+    border: 1px solid #707070;
+}
+
+.editor-panel .panel-tabs .panel-tab-contents .tab-settings .form-group .background span {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid #707070;
+    display: inline-block;
+}
+
+.editor-panel .panel-tabs .panel-tab-contents .tab-settings .form-group .background p {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 24px;
+    color: #3B4859;
+    display: inline-block;
+    padding-left: 10px;
+}
+
+
+.editor-container .right-container .content .play-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #3B7CFF;
+    font-size: 72px;
+    cursor: pointer;
+}
+
+.divider{
+    border-bottom: 1px solid #707070;
+}

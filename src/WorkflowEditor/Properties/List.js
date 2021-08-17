@@ -9,13 +9,28 @@ export class List extends Component {
             shownList: 0,
             showEditorPanel: false,
             showEditorPanelTab: 0,
-            title: "Heading",
-            name: 'text',
-            value: '',
-            placeHolder: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-            isActive: false
+            isActive: false,
+            formContent: {
+                ListingData: [],
+                padding_bottom: '',
+                padding_top: ''
+            }
         }
     };
+
+    componentDidMount() {
+        const { properties } = this.props;
+        const { formContent } = this.state;
+        const { ListingData, padding_bottom, padding_top } = properties;
+        if (properties) {
+            formContent.ListingData = ListingData;
+            formContent.padding_bottom = padding_bottom;
+            formContent.padding_top = padding_top;
+            this.setState({
+                formContent,
+            });
+        }
+    }
 
     showListContent = () => {
         const { listContent } = this.state;
@@ -43,21 +58,6 @@ export class List extends Component {
         this.setState({ showEditorPanelTab: index });
     }
 
-    setProperties = (sendData) => {
-        const { title, placeHolder, name, value } = this.state;
-        const { type } = this.props;
-        const properties = {
-            type,
-            title: title,
-            name: name,
-            placeHolder: placeHolder,
-            value: value,
-            ...sendData
-        };
-        this.props.setPropertiesData(properties, this.props.location);
-        this.setIsActive(true);
-    }
-
     setIsActive = (isActive) => {
         this.setState({
             isActive
@@ -66,6 +66,65 @@ export class List extends Component {
 
     showEditorPanel = () => {
         this.props.showhideProperties();
+    }
+
+    displayListing = () => {
+        const { formContent } = this.state;
+        let retData = [];
+        if (formContent.ListingData) {
+            for (let i = 0; i < formContent.ListingData.length; i++) {
+                let row = formContent.ListingData[i];
+                retData.push(
+                    <div className="tab-content mb-3">
+                        <p><span>List item</span></p>
+                        <p><span>{i + 1}</span></p>
+                        <div className="d-flex justify-content-between">
+                            <input type="text" value={row.value} onChange={(e) => this.handleStateChange(e, i)} />
+                            <i onClick={() => this.removeListing(i)} className="fal fa-trash"></i>
+                        </div>
+                    </div>
+                )
+            }
+        }
+        return retData;
+    }
+
+    handleStateChange = (e, index) => {
+        const { value } = e.target;
+        const { formContent } = this.state;
+        formContent.ListingData[index].value = value;
+        this.setState({
+            formContent,
+        });
+        this.props.onChangeContent(formContent);
+    }
+
+    removeListing = (index) => {
+        const { formContent } = this.state;
+        formContent.ListingData.splice(index, 1);
+        this.setState({
+            formContent
+        });
+        this.props.onChangeContent(formContent);
+    }
+
+    addNewList = () => {
+        let { formContent } = this.state;
+        formContent.ListingData.push({ value: '', isDelete: false });
+        this.setState({
+            formContent,
+        });
+        this.props.onChangeContent(formContent);
+    }
+
+    handleStateChangePadding = (e) => {
+        const { value, name } = e.target;
+        const { formContent } = this.state;
+        formContent[name] = value;
+        this.setState({
+            formContent
+        });
+        this.props.onChangeContent(formContent);
     }
 
     render() {
@@ -84,32 +143,9 @@ export class List extends Component {
                     <div className="panel-tab-contents">
                         {showEditorPanelTab === 0 &&
                             <>
-                                <div className="tab-content mb-3">
-                                    <p><span>List item</span></p>
-                                    <p><span>1</span></p>
-                                    <div className="d-flex justify-content-between">
-                                        <p>Phasellus vestibulum nulla a mi mattis, in fringilla elit sodales.</p>
-                                        <i className="fal fa-trash"></i>
-                                    </div>
-                                </div>
-                                <div className="tab-content mb-3">
-                                    <p><span>List item</span></p>
-                                    <p><span>2</span></p>
-                                    <div className="d-flex justify-content-between">
-                                        <p>Duis ullamcorper massa tincidunt, euismod tortor et, mollis erat.</p>
-                                        <i className="fal fa-trash"></i>
-                                    </div>
-                                </div>
-                                <div className="tab-content mb-3">
-                                    <p><span>List item</span></p>
-                                    <p><span>3</span></p>
-                                    <div className="d-flex justify-content-between">
-                                        <p>Pellentesque lobortis nisi ut dolor laoreet sollicitudin et vitae justo.</p>
-                                        <i className="fal fa-trash"></i>
-                                    </div>
-                                </div>
+                                {this.displayListing()}
                                 <div className="d-flex justify-content-center">
-                                    <button className="btn btn-link add-new-item"><i class="far fa-plus"></i> Add New Item</button>
+                                    <button className="btn btn-link add-new-item" onClick={this.addNewList}><i class="far fa-plus"></i> Add New Item</button>
                                 </div>
                             </>
                         }
@@ -119,24 +155,24 @@ export class List extends Component {
                                     <div className="col-6">
                                         <div className="form-group">
                                             <label>Padding Top</label>
-                                            <select className="form-control">
-                                                <option>10px</option>
-                                                <option>20px</option>
-                                                <option>30px</option>
-                                                <option>40px</option>
-                                                <option>50px</option>
+                                            <select className="form-control" name="padding_top" onChange={this.handleStateChangePadding}>
+                                                <option value="1">1px</option>
+                                                <option value="2">2px</option>
+                                                <option value="3">3px</option>
+                                                <option value="4">4px</option>
+                                                <option value="5">5px</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div className="col-6">
                                         <div className="form-group">
                                             <label>Padding Bottom</label>
-                                            <select className="form-control">
-                                                <option>10px</option>
-                                                <option>20px</option>
-                                                <option>30px</option>
-                                                <option>40px</option>
-                                                <option>50px</option>
+                                            <select className="form-control" name="padding_bottom" onChange={this.handleStateChangePadding}>
+                                                <option value="1">1px</option>
+                                                <option value="2">2px</option>
+                                                <option value="3">3px</option>
+                                                <option value="4">4px</option>
+                                                <option value="5">5px</option>
                                             </select>
                                         </div>
                                     </div>

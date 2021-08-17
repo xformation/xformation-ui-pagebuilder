@@ -13,7 +13,9 @@ export class Divider extends Component {
             name: 'text',
             value: '',
             placeHolder: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-            isActive: false
+            isActive: false,
+            padding_top: 0,
+            padding_bottom: 0,
         }
     };
 
@@ -44,7 +46,7 @@ export class Divider extends Component {
     }
 
     setProperties = (sendData) => {
-        const { title, placeHolder, name, value } = this.state;
+        const { title, placeHolder, name, value, padding_top, padding_bottom } = this.state;
         const { type } = this.props;
         const properties = {
             type,
@@ -52,6 +54,8 @@ export class Divider extends Component {
             name: name,
             placeHolder: placeHolder,
             value: value,
+            padding_bottom: padding_bottom,
+            padding_top: padding_top,
             ...sendData
         };
         this.props.setPropertiesData(properties, this.props.location);
@@ -64,11 +68,20 @@ export class Divider extends Component {
         });
     }
 
+    changeProperties = (formContent) => {
+        const { padding_top, padding_bottom } = formContent;
+        this.setState({
+            padding_top: padding_top,
+            padding_bottom: padding_bottom,
+        });
+        // this.props.setPropertiesData(formContent, this.props.location);
+    };
+
     render() {
-        const { dividerContent, shownDivider, showEditorPanel, showEditorPanelTab } = this.state;
+        const { dividerContent, shownDivider, showEditorPanel, showEditorPanelTab, padding_top, padding_bottom } = this.state;
         return (
-            <div className="d-flex content">
-                <div className="col-8 pl-0">
+            <div className={`d-flex content pt-${padding_top} pb-${padding_bottom}`}>
+                <div className='col-8 pl-0'>
                     <div className="d-flex flex-row flex-wrap text-center left-content">
                         <div className="d-block w-100 mt-3 divider"></div>
                     </div>

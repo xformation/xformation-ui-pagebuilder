@@ -10,10 +10,13 @@ export class Icon extends Component {
             shownIcon: 2,
             showEditorPanel: false,
             showEditorPanelTab: 0,
-            title: "Heading",
-            name: 'text',
-            value: '',
-            placeHolder: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+            ListingData: [
+                { value: ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', isDelete: false, icon: iconImage, name: 'video.mp4' },
+                { value: ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', isDelete: false, icon: iconImage, name: 'video.mp4' },
+                { value: ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', isDelete: false, icon: iconImage, name: 'video.mp4' },
+            ],
+            padding_top: 0,
+            padding_bottom: 0,
             isActive: false
         }
     };
@@ -44,16 +47,14 @@ export class Icon extends Component {
         this.setState({ showEditorPanelTab: index });
     }
 
-    setProperties = (sendData) => {
-        const { title, placeHolder, name, value } = this.state;
+    setProperties = () => {
+        const { ListingData, padding_top, padding_bottom } = this.state;
         const { type } = this.props;
         const properties = {
             type,
-            title: title,
-            name: name,
-            placeHolder: placeHolder,
-            value: value,
-            ...sendData
+            ListingData: ListingData,
+            padding_bottom: padding_bottom,
+            padding_top: padding_top,
         };
         this.props.setPropertiesData(properties, this.props.location);
         this.setIsActive(true);
@@ -65,31 +66,41 @@ export class Icon extends Component {
         });
     }
 
+    displayIconList = () => {
+        const { ListingData } = this.state;
+        let retData = [];
+        if (ListingData) {
+            for (let i = 0; i < ListingData.length; i++) {
+                retData.push(
+                    <div className="col-4">
+                        <p><img src={iconImage} alt="" className="mb-2 w-50" /></p>
+                        <p>
+                            {ListingData[i].value}
+                        </p>
+                    </div>
+                );
+            }
+        }
+        return retData;
+    }
+
+    changeProperties = (formContent) => {
+        const { ListingData, padding_top, padding_bottom } = formContent;
+        this.setState({
+            ListingData: ListingData,
+            padding_top: padding_top,
+            padding_bottom: padding_bottom,
+        });
+    }
+
     render() {
-        const { iconContent, shownIcon, showEditorPanel, showEditorPanelTab } = this.state;
+        const { iconContent, shownIcon, showEditorPanel, showEditorPanelTab, padding_top, padding_bottom } = this.state;
         return (
-            <div className="d-flex content">
-                <div className="col-8 pl-0">
+            <div className={`d-flex content pt-${padding_top} pb-${padding_bottom}`}>
+                <div className='col-8 pl-0'>
                     <div className="d-flex flex-row flex-wrap text-center left-content">
                         <div className="row">
-                            <div className="col-4">
-                                <p><img src={iconImage} alt="" className="mb-2 w-50" /></p>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                </p>
-                            </div>
-                            <div className="col-4">
-                                <p><img src={iconImage} alt="" className="mb-2 w-50" /></p>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                </p>
-                            </div>
-                            <div className="col-4">
-                                <p><img src={iconImage} alt="" className="mb-2 w-50" /></p>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                </p>
-                            </div>
+                            {this.displayIconList()}
                         </div>
                     </div>
                 </div>
@@ -163,7 +174,7 @@ export class Icon extends Component {
                             <i className="fal fa-arrow-down"></i>
                             <i className="fal fa-copy"></i>
                             <i className="fal fa-trash" onClick={this.clearContent}></i>
-                            <i className="fal fa-pen" onClick={() => this.setProperties({})}></i>
+                            <i className="fal fa-pen" onClick={() => this.setProperties()}></i>
                         </div>
                     </div>
                 </div>

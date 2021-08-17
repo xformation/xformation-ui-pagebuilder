@@ -10,26 +10,33 @@ export class Text extends Component {
             shownParagraph: 1,
             showEditorPanel: false,
             showEditorPanelTab: 0,
-            title: "Heading",
-            name: 'text',
-            placeHolder: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-            isActive: false,
-            description: '',
+            formContent: {
+                title: "Heading",
+                name: 'text',
+                placeHolder: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                description: '',
+                padding_bottom: '',
+                padding_top: ''
+            },
+
             value: RichTextEditor.createEmptyValue(),
         }
     };
 
     componentDidMount() {
-        console.log(this.props.properties);
         const { properties } = this.props;
+        const { title, name, description, placeHolder, value, padding_bottom, padding_top } = properties;
+        const { formContent } = this.state;
         if (properties) {
-            console.log('true');
-            const { title, name, description, placeHolder } = properties;
+            formContent.title = title;
+            formContent.value = value;
+            formContent.name = name;
+            formContent.placeHolder = placeHolder;
+            formContent.description = description;
+            formContent.padding_bottom = padding_bottom;
+            formContent.padding_top = padding_top;
             this.setState({
-                'title': title,
-                'name': name,
-                'description': description,
-                'placeHolder': placeHolder
+                formContent
             });
         }
     }
@@ -42,29 +49,18 @@ export class Text extends Component {
         this.props.showhideProperties();
     }
 
-    setProperty = (properties) => {
-        console.log(properties);
-        const { title, type, name, placeHolder, value } = properties;
-        // const { formContent } = this.state;
-        // formContent.title = title;
-        // formContent.value = value;
-        // formContent.isRequired = isRequired;
-        // formContent.type = type;
-        // formContent.name = name;
-        // formContent.notice = notice;
-        // formContent.placeHolder = placeHolder;
-        // formContent.id = id;
-        // formContent.errorMessage = errorMessage;
-        // formContent.options = options;
-        // formContent.validations = validations;
-        // this.setState({
-        //     formContent
-        // });
+    handleStateChange = (e) => {
+        const { value, name } = e.target;
+        const { formContent } = this.state;
+        formContent[name] = value;
+        this.setState({
+            formContent
+        });
+        this.props.onChangeContent(formContent);
     }
 
-
     render() {
-        const { paragraphContent, shownParagraph, showEditorPanel, showEditorPanelTab, title, name, description, placeHolder } = this.state;
+        const { paragraphContent, shownParagraph, showEditorPanel, showEditorPanelTab, formContent } = this.state;
         const toolbarConfig = {
             // Optionally specify the groups to display (displayed in the order listed).
             display: ['INLINE_STYLE_BUTTONS', 'BLOCK_TYPE_BUTTONS', 'LINK_BUTTONS', 'BLOCK_TYPE_DROPDOWN', 'HISTORY_BUTTONS'],
@@ -98,8 +94,8 @@ export class Text extends Component {
                     <div className="panel-tab-contents">
                         {showEditorPanelTab === 0 &&
                             <div className="tab-content">
-                                <h6>{title}</h6>
-                                <input type="text" value={description} name="description" placeholder={placeHolder} />
+                                <h6>{formContent['title']}</h6>
+                                <input type="text" value={formContent['description']} name="description" placeholder={formContent['placeHolder']} onChange={this.handleStateChange} />
                                 {/* <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p> */}
                                 {/* <RichTextEditor toolbarConfig={toolbarConfig} value={this.state.value}
                                     onChange={this.onChange} /> */}
@@ -111,24 +107,24 @@ export class Text extends Component {
                                     <div className="col-6">
                                         <div className="form-group">
                                             <label>Padding Top</label>
-                                            <select className="form-control">
-                                                <option>10px</option>
-                                                <option>20px</option>
-                                                <option>30px</option>
-                                                <option>40px</option>
-                                                <option>50px</option>
+                                            <select className="form-control" name="padding_top" onChange={this.handleStateChange}>
+                                                <option value="1">1px</option>
+                                                <option value="2">2px</option>
+                                                <option value="3">3px</option>
+                                                <option value="4">4px</option>
+                                                <option value="5">5px</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div className="col-6">
                                         <div className="form-group">
                                             <label>Padding Bottom</label>
-                                            <select className="form-control">
-                                                <option>10px</option>
-                                                <option>20px</option>
-                                                <option>30px</option>
-                                                <option>40px</option>
-                                                <option>50px</option>
+                                            <select className="form-control" name="padding_bottom" onChange={this.handleStateChange}>
+                                                <option value="1">1px</option>
+                                                <option value="2">2px</option>
+                                                <option value="3">3px</option>
+                                                <option value="4">4px</option>
+                                                <option value="5">5px</option>
                                             </select>
                                         </div>
                                     </div>

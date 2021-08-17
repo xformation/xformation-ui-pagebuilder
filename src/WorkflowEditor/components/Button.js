@@ -6,7 +6,10 @@ export class Button extends Component {
         super(props);
         this.state = {
             showEditorPanel: false,
-            showEditorPanelTab: 0
+            showEditorPanelTab: 0,
+            title: 'Continue',
+            padding_top: 0,
+            padding_bottom: 0,
         }
     };
 
@@ -24,14 +27,13 @@ export class Button extends Component {
     }
 
     setProperties = (sendData) => {
-        const { title, placeHolder, name, value } = this.state;
+        const { title, padding_top, padding_bottom } = this.state;
         const { type } = this.props;
         const properties = {
             type,
             title: title,
-            name: name,
-            placeHolder: placeHolder,
-            value: value,
+            padding_bottom: padding_bottom,
+            padding_top: padding_top,
             ...sendData
         };
         this.props.setPropertiesData(properties, this.props.location);
@@ -44,13 +46,23 @@ export class Button extends Component {
         });
     };
 
+    changeProperties = (formContent) => {
+        const { title, padding_top, padding_bottom } = formContent;
+        this.setState({
+            title: title,
+            padding_top: padding_top,
+            padding_bottom: padding_bottom,
+        });
+        // this.props.setPropertiesData(formContent, this.props.location);
+    };
+
     render() {
-        const { showEditorPanel, showEditorPanelTab } = this.state;
+        const { showEditorPanel, showEditorPanelTab, title, padding_top, padding_bottom } = this.state;
         return (
-            <div className="d-flex content">
-                <div className="col-8 pl-0">
+            <div className={`d-flex content pt-${padding_top} pb-${padding_bottom}`}>
+                <div className='col-8 pl-0'>
                     <div className="d-flex align-items-center justify-content-center left-content position-relative">
-                        <button className="btn btn-primary">Continue</button>
+                        <button className="btn btn-primary">{title}</button>
                     </div>
                 </div>
                 <div className="col-4 pr-0">

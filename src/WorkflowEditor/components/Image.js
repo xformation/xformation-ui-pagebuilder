@@ -11,10 +11,11 @@ export class Image extends Component {
             shownImage: 0,
             showEditorPanel: false,
             showEditorPanelTab: 0,
-            title: "Heading",
-            name: 'text',
-            value: '',
-            placeHolder: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+            padding_top: 0,
+            padding_bottom: 0,
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+            placeHolder: '',
+            url: verticalImage,
             isActive: false
         }
     };
@@ -46,14 +47,15 @@ export class Image extends Component {
     }
 
     setProperties = (sendData) => {
-        const { title, placeHolder, name, value } = this.state;
+        const { padding_top, padding_bottom, description, placeHolder, url } = this.state;
         const { type } = this.props;
         const properties = {
             type,
-            title: title,
-            name: name,
+            padding_bottom: padding_bottom,
+            padding_top: padding_top,
             placeHolder: placeHolder,
-            value: value,
+            description: description,
+            url: url,
             ...sendData
         };
         this.props.setPropertiesData(properties, this.props.location);
@@ -66,19 +68,38 @@ export class Image extends Component {
         });
     }
 
+    changeProperties = (formContent) => {
+        const { padding_top, padding_bottom, placeHolder, description, url } = formContent;
+        this.setState({
+            padding_top: padding_top,
+            padding_bottom: padding_bottom,
+            placeHolder: placeHolder,
+            description: description,
+            url: url
+        });
+        // this.props.setPropertiesData(formContent, this.props.location);
+    };
+
+    handleStateChange = (e) => {
+        const { name, value } = e.target;
+        this.setState({
+            [name]: value
+        });
+        this.setProperties({ [name]: value });
+    };
+
     render() {
-        const { imageContent, shownImage, showEditorPanel, showEditorPanelTab } = this.state;
+        const { imageContent, shownImage, showEditorPanel, showEditorPanelTab, padding_top, padding_bottom, description, placeHolder, url } = this.state;
         return (
-            <div className="d-flex content">
-                <div className="col-8 pl-0">
+            <div className={`d-flex content pt-${padding_top} pb-${padding_bottom}`}>
+                <div className='col-8 pl-0'>
                     <div className="d-flex align-items-center justify-content-center left-content">
                         <div className="row align-items-center justify-content-center">
                             <div className="col-6">
-                                <img src={verticalImage} alt="" />
+                                <img src={url} alt="" />
                             </div>
                             <div className="col-6">
-                                <p className="mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                <p>{description}</p>
                             </div>
                         </div>
                     </div>
@@ -171,7 +192,6 @@ export class Image extends Component {
                         </div>
                     </div>
                 </div>
-
             </div>
         );
     }

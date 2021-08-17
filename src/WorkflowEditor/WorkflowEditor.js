@@ -179,7 +179,7 @@ export class WorkflowEditor extends Component {
         }
         this.propertiesRef.current.setProperties(data, location);
     }
-
+    
     showRightbar = () => {
         const { showRightPart } = this.state;
         let showright = !showRightPart;
@@ -187,6 +187,18 @@ export class WorkflowEditor extends Component {
             showRightPart: showright,
         })
     }
+
+    changeWorkProperties = (formdata) => {
+        const { activeLocation } = this.state;
+        const tab = this.formContentRefs[activeLocation.index];
+        if (tab) {
+            const ref = tab[activeLocation.index];
+            if (ref) {
+                ref.current.changeProperties(formdata);
+            }
+        }
+    }
+
 
     render() {
         const { showRightPart } = this.state;
@@ -229,7 +241,7 @@ export class WorkflowEditor extends Component {
                 </div>
                 <div className={`right-side ${showRightPart ? '' : 'd-none'}`}>
                     <div className="d-block">
-                        <HTMLProperties ref={this.propertiesRef} hideRightSide={this.showRightbar} />
+                        <HTMLProperties ref={this.propertiesRef} hideRightSide={this.showRightbar} changeProperties={this.changeWorkProperties} />
                     </div>
                 </div>
             </div>

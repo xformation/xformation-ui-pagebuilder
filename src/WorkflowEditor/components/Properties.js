@@ -24,7 +24,10 @@ export class HTMLProperties extends Component {
                 type: "",
                 name: '',
                 placeHolder: '',
-                description: ''
+                description: '',
+                ListingData: [],
+                padding_bottom: '',
+                padding_top: '',
             },
         }
         this.formContentRefs = [];
@@ -35,15 +38,23 @@ export class HTMLProperties extends Component {
     }
 
     setProperties = (properties, location) => {
-        console.log(location)
-        const { title, type, name, placeHolder, value, description } = properties;
+        const { title, type, name, placeHolder, value, description, ListingData, padding_bottom, padding_top, } = properties;
         const { formContent } = this.state;
-        formContent.title = title;
-        formContent.value = value;
-        formContent.type = type;
-        formContent.name = name;
-        formContent.description = description;
-        formContent.placeHolder = placeHolder;
+        if (type != 'list' && type != 'icon') {
+            formContent.title = title;
+            formContent.value = value;
+            formContent.type = type;
+            formContent.name = name;
+            formContent.description = description;
+            formContent.placeHolder = placeHolder;
+            formContent.padding_bottom = padding_bottom;
+            formContent.padding_top = padding_top;
+        } else {
+            formContent.type = type;
+            formContent.ListingData = ListingData;
+            formContent.padding_bottom = padding_bottom;
+            formContent.padding_top = padding_top;
+        }
         this.setState({
             formContent,
         });
@@ -67,24 +78,28 @@ export class HTMLProperties extends Component {
             index: ContentRef.length
         };
         if (formContent.type === componentType.TEXT) {
-            tabContent.push(<Text key={v4()} showhideProperties={this.showEditorPanel} location={location} ref={ref} properties={formContent} />);
+            tabContent.push(<Text key={v4()} showhideProperties={this.showEditorPanel} location={location} ref={ref} properties={formContent} onChangeContent={this.onChangeProperties} />);
         } else if (formContent.type === componentType.LIST) {
-            tabContent.push(<List key={v4()} showhideProperties={this.showEditorPanel} location={location} ref={ref} properties={formContent} />);
+            tabContent.push(<List key={v4()} showhideProperties={this.showEditorPanel} location={location} ref={ref} properties={formContent} onChangeContent={this.onChangeProperties} />);
         } else if (formContent.type === componentType.IMAGE) {
-            tabContent.push(<Image key={v4()} showhideProperties={this.showEditorPanel} location={location} ref={ref} properties={formContent} />);
+            tabContent.push(<Image key={v4()} showhideProperties={this.showEditorPanel} location={location} ref={ref} properties={formContent} onChangeContent={this.onChangeProperties} />);
         } else if (formContent.type === componentType.VIDEO) {
-            tabContent.push(<Video key={v4()} showhideProperties={this.showEditorPanel} location={location} ref={ref} properties={formContent} />);
+            tabContent.push(<Video key={v4()} showhideProperties={this.showEditorPanel} location={location} ref={ref} properties={formContent} onChangeContent={this.onChangeProperties} />);
         } else if (formContent.type === componentType.ICON) {
-            tabContent.push(<Icon key={v4()} showhideProperties={this.showEditorPanel} location={location} ref={ref} properties={formContent} />);
+            tabContent.push(<Icon key={v4()} showhideProperties={this.showEditorPanel} location={location} ref={ref} properties={formContent} onChangeContent={this.onChangeProperties} />);
         } else if (formContent.type === componentType.DIVIDER) {
-            tabContent.push(<Divider key={v4()} showhideProperties={this.showEditorPanel} location={location} ref={ref} properties={formContent} />);
+            tabContent.push(<Divider key={v4()} showhideProperties={this.showEditorPanel} location={location} ref={ref} properties={formContent} onChangeContent={this.onChangeProperties} />);
         } else if (formContent.type === componentType.BUTTON) {
-            tabContent.push(<Button key={v4()} showhideProperties={this.showEditorPanel} location={location} ref={ref} properties={formContent} />);
+            tabContent.push(<Button key={v4()} showhideProperties={this.showEditorPanel} location={location} ref={ref} properties={formContent} onChangeContent={this.onChangeProperties} />);
         }
         ContentRef.push(ref);
         this.formContentRefs = ContentRef;
         return tabContent;
     }
+
+    onChangeProperties = (formContent) => {
+        this.props.changeProperties(formContent);
+    };
 
     render() {
         return (

@@ -13,6 +13,8 @@ export class Text extends Component {
             name: 'text',
             description: '',
             placeHolder: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+            padding_top: 0,
+            padding_bottom: 0,
             isActive: false
         }
     };
@@ -44,7 +46,7 @@ export class Text extends Component {
     }
 
     setProperties = (sendData) => {
-        const { title, placeHolder, name, value, description } = this.state;
+        const { title, placeHolder, name, value, description, padding_top, padding_bottom } = this.state;
         const { type } = this.props;
         const properties = {
             type,
@@ -53,6 +55,8 @@ export class Text extends Component {
             placeHolder: placeHolder,
             value: value,
             description: description,
+            padding_bottom: padding_bottom,
+            padding_top: padding_top,
             ...sendData
         };
         this.props.setPropertiesData(properties, this.props.location);
@@ -73,11 +77,26 @@ export class Text extends Component {
         this.setProperties({ [name]: value });
     };
 
+    changeProperties = (formContent) => {
+        const { title, placeHolder, name, value, description, padding_top, padding_bottom } = formContent;
+        this.setState({
+            title: title,
+            placeHolder: placeHolder,
+            name: name,
+            value: value,
+            description: description,
+            padding_top: padding_top,
+            padding_bottom: padding_bottom,
+        });
+        // this.props.setPropertiesData(formContent, this.props.location);
+    };
+
     render() {
-        const { paragraphContent, shownParagraph, showEditorPanel, showEditorPanelTab, title, placeHolder, description } = this.state;
+        const { paragraphContent, shownParagraph, showEditorPanel, showEditorPanelTab, title, placeHolder, description, padding_top, padding_bottom } = this.state;
+        let a=10;
         return (
-            <div className="d-flex content">
-                <div className="col-8 pl-0">
+            <div className={`d-flex content pt-${padding_top} pb-${padding_bottom}`}>
+                <div className='col-8 pl-0'>
                     <div className="d-flex flex-row flex-wrap left-content">
                         <h3>{title}</h3>
                         <input type="text" value={description} name="description" onChange={this.handleStateChange} placeholder={placeHolder} />

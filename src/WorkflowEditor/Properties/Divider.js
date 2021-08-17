@@ -7,55 +7,30 @@ export class Divider extends Component {
         this.state = {
             dividerContent: false,
             shownDivider: 0,
-            showEditorPanel: false,
             showEditorPanelTab: 0,
-            title: "Heading",
-            name: 'text',
-            value: '',
-            placeHolder: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+            formContent: {
+                padding_bottom: '',
+                padding_top: '',
+            },
             isActive: false
         }
     };
 
-    showDividerContent = () => {
-        const { dividerContent } = this.state;
-        this.setState({ dividerContent: !dividerContent });
-    }
-
-    clearContent = () => {
-        this.props.onClickDelete(this.props.location);
-    }
-
-    showEditorPanel = () => {
-        const { showEditorPanel } = this.state;
-        this.setState({ showEditorPanel: !showEditorPanel });
-    }
-
-    dividerMouseOver = (index) => {
-        this.setState({ shownDivider: index });
-    }
-
-    dividerMouseOut = () => {
-        this.setState({ shownDivider: 0 });
+    componentDidMount() {
+        const { properties } = this.props;
+        const { padding_bottom, padding_top } = properties;
+        const { formContent } = this.state;
+        if (properties) {
+            formContent.padding_bottom = padding_bottom;
+            formContent.padding_top = padding_top;
+            this.setState({
+                formContent
+            });
+        }
     }
 
     showEditorPanelTab = (index) => {
         this.setState({ showEditorPanelTab: index });
-    }
-
-    setProperties = (sendData) => {
-        const { title, placeHolder, name, value } = this.state;
-        const { type } = this.props;
-        const properties = {
-            type,
-            title: title,
-            name: name,
-            placeHolder: placeHolder,
-            value: value,
-            ...sendData
-        };
-        this.props.setPropertiesData(properties, this.props.location);
-        this.setIsActive(true);
     }
 
     setIsActive = (isActive) => {
@@ -68,8 +43,18 @@ export class Divider extends Component {
         this.props.showhideProperties();
     }
 
+    handleStateChange = (e) => {
+        const { value, name } = e.target;
+        const { formContent } = this.state;
+        formContent[name] = value;
+        this.setState({
+            formContent
+        });
+        this.props.onChangeContent(formContent);
+    }
+
     render() {
-        const { dividerContent, shownDivider, showEditorPanel, showEditorPanelTab } = this.state;
+        const { showEditorPanelTab } = this.state;
         return (
             <div className='editor-panel show'>
                 <div className="d-flex justify-content-between panel-heading">
@@ -87,24 +72,24 @@ export class Divider extends Component {
                                     <div className="col-6">
                                         <div className="form-group">
                                             <label>Padding Top</label>
-                                            <select className="form-control">
-                                                <option>10px</option>
-                                                <option>20px</option>
-                                                <option>30px</option>
-                                                <option>40px</option>
-                                                <option>50px</option>
+                                            <select className="form-control" name="padding_top" onChange={this.handleStateChange}>
+                                                <option value="1">1px</option>
+                                                <option value="2">2px</option>
+                                                <option value="3">3px</option>
+                                                <option value="4">4px</option>
+                                                <option value="5">5px</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div className="col-6">
                                         <div className="form-group">
                                             <label>Padding Bottom</label>
-                                            <select className="form-control">
-                                                <option>10px</option>
-                                                <option>20px</option>
-                                                <option>30px</option>
-                                                <option>40px</option>
-                                                <option>50px</option>
+                                            <select className="form-control" name="padding_bottom" onChange={this.handleStateChange}>
+                                                <option value="1">1px</option>
+                                                <option value="2">2px</option>
+                                                <option value="3">3px</option>
+                                                <option value="4">4px</option>
+                                                <option value="5">5px</option>
                                             </select>
                                         </div>
                                     </div>

@@ -9,10 +9,15 @@ export class List extends Component {
             shownList: 0,
             showEditorPanel: false,
             showEditorPanelTab: 0,
-            title: "Heading",
-            name: 'text',
-            value: '',
-            placeHolder: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+            ListingData: [
+                { value: 'Phasellus vestibulum nulla a mi mattis, in fringilla elit sodales.', isDelete: false },
+                { value: 'Duis ullamcorper massa tincidunt, euismod tortor et, mollis erat.', isDelete: false },
+                { value: 'Pellentesque lobortis nisi ut dolor laoreet sollicitudin et vitae justo..', isDelete: false },
+                { value: 'Mauris maximus lorem vitae neque pellentesque, sit amet aliquam turpis feugiat.', isDelete: false },
+                // { value: 'Nullam vehicula justo sit amet sodales maximus.', isDelete: false }
+            ],
+            padding_top: 0,
+            padding_bottom: 0,
             isActive: false
         }
     };
@@ -43,16 +48,14 @@ export class List extends Component {
         this.setState({ showEditorPanelTab: index });
     }
 
-    setProperties = (sendData) => {
-        const { title, placeHolder, name, value } = this.state;
+    setProperties = () => {
+        const { ListingData, padding_top, padding_bottom } = this.state;
         const { type } = this.props;
         const properties = {
             type,
-            title: title,
-            name: name,
-            placeHolder: placeHolder,
-            value: value,
-            ...sendData
+            ListingData: ListingData,
+            padding_bottom: padding_bottom,
+            padding_top: padding_top,
         };
         this.props.setPropertiesData(properties, this.props.location);
         this.setIsActive(true);
@@ -64,33 +67,40 @@ export class List extends Component {
         });
     }
 
+    displayListing = () => {
+        const { ListingData } = this.state;
+        let retData = [];
+        if (ListingData) {
+            for (let i = 0; i < ListingData.length; i++) {
+                retData.push(
+                    <li>
+                        <span>{i + 1}</span>
+                        <p>{ListingData[i].value}</p>
+                    </li>
+                )
+            }
+        }
+        return retData;
+    }
+
+    changeProperties = (formContent) => {
+        const { ListingData, padding_top, padding_bottom } = formContent;
+        this.setState({
+            ListingData: ListingData,
+            padding_top: padding_top,
+            padding_bottom: padding_bottom,
+        });
+        // this.props.setPropertiesData(formContent, this.props.location);
+    }
+
     render() {
-        const { listContent, shownList, showEditorPanel, showEditorPanelTab } = this.state;
+        const { listContent, shownList, showEditorPanel, showEditorPanelTab, padding_top, padding_bottom } = this.state;
         return (
-            <div className="d-flex content">
-                <div className="col-8 pl-0">
+            <div className={`d-flex content pt-${padding_top} pb-${padding_bottom}`}>
+                <div className='col-8 pl-0'>
                     <div className="d-flex flex-row flex-wrap left-content">
                         <ul>
-                            <li>
-                                <span>1</span>
-                                <p>Phasellus vestibulum nulla a mi mattis, in fringilla elit sodales.</p>
-                            </li>
-                            <li>
-                                <span>2</span>
-                                <p>Duis ullamcorper massa tincidunt, euismod tortor et, mollis erat.</p>
-                            </li>
-                            <li>
-                                <span>3</span>
-                                <p>Pellentesque lobortis nisi ut dolor laoreet sollicitudin et vitae justo.</p>
-                            </li>
-                            <li>
-                                <span>4</span>
-                                <p>Mauris maximus lorem vitae neque pellentesque, sit amet aliquam turpis feugiat.</p>
-                            </li>
-                            <li>
-                                <span>5</span>
-                                <p>Nullam vehicula justo sit amet sodales maximus.</p>
-                            </li>
+                            {this.displayListing()}
                         </ul>
                     </div>
                 </div>
@@ -176,7 +186,7 @@ export class List extends Component {
                             <i className="fal fa-arrow-down"></i>
                             <i className="fal fa-copy"></i>
                             <i className="fal fa-trash" onClick={this.clearContent}></i>
-                            <i className="fal fa-pen" onClick={() => this.setProperties({})}></i>
+                            <i className="fal fa-pen" onClick={() => this.setProperties()}></i>
                         </div>
                     </div>
                 </div>

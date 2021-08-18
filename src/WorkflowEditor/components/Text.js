@@ -45,7 +45,7 @@ export class Text extends Component {
         this.setState({ showEditorPanelTab: index });
     }
 
-    setProperties = (sendData) => {
+    setProperties = (updatedData) => {
         const { title, placeHolder, name, value, description, padding_top, padding_bottom } = this.state;
         const { type } = this.props;
         const properties = {
@@ -57,10 +57,18 @@ export class Text extends Component {
             description: description,
             padding_bottom: padding_bottom,
             padding_top: padding_top,
-            ...sendData
+            ...updatedData
         };
         this.props.setPropertiesData(properties, this.props.location);
         this.setIsActive(true);
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        if(JSON.stringify(prevProps.properties) !== JSON.stringify(this.props.properties)){
+            this.setState({
+                ...this.props.properties
+            });
+        }
     }
 
     setIsActive = (isActive) => {

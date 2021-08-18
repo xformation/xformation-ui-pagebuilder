@@ -3,6 +3,7 @@ import './css/workflow.css';
 import { Text, List, Image, Video, Icon, Divider, Button, HTMLProperties } from './components';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { menuIcons } from './img';
+import { v4 } from 'uuid';
 
 export const componentType = {
     TEXT: "text",
@@ -18,7 +19,6 @@ export class WorkflowEditor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeTab: 0,
             sidebarData: [
                 {
                     title: 'Text',
@@ -67,7 +67,7 @@ export class WorkflowEditor extends Component {
             formData: {},
             showRightPart: false,
         };
-        this.formContentRefs = {};
+        this.formContentRefs = [];
         this.propertiesRef = React.createRef();
     };
 
@@ -77,7 +77,7 @@ export class WorkflowEditor extends Component {
         for (let i = 0; i < sidebarData.length; i++) {
             let row = sidebarData[i];
             sidebarReturnData.push(
-                <li key={`options-${i}`} onClick={e => this.displayFormContent(row)}>
+                <li key={v4()} onClick={e => this.displayFormContent(row)}>
                     <div className="d-block">
                         <span><img src={row.iconImg} alt={row.title} width="40" height="40" /></span>
                         <p>{row.title}</p>
@@ -89,37 +89,31 @@ export class WorkflowEditor extends Component {
     }
 
     displayFormContent = (fieldData) => {
-        const { formDataContent, activeTab, activeLocation } = this.state;
+        const { formDataContent, activeLocation } = this.state;
         const { type } = fieldData;
-        const tabContent = formDataContent[activeTab] || [];
-        const tabContentRef = this.formContentRefs[activeTab] || [];
         const ref = React.createRef();
-        const index = tabContent.length;
         const location = {
-            tab: activeTab,
-            index: tabContentRef.length
+            index: this.formContentRefs.length
         };
         if (type === componentType.TEXT) {
-            tabContent.push(<Text type={type} ref={ref} location={location} key={`comp-${activeTab}-${index}`} onClickDelete={this.onClickDelete} setPropertiesData={this.setProperty} activeLocation={activeLocation} />);
+            formDataContent.push(<Text type={type} ref={ref} location={location} key={v4()} onClickDelete={this.onClickDelete} setPropertiesData={this.setProperty} activeLocation={activeLocation} />);
         } else if (type === componentType.LIST) {
-            tabContent.push(<List type={type} ref={ref} location={location} key={`comp-${activeTab}-${index}`} onClickDelete={this.onClickDelete} setPropertiesData={this.setProperty} activeLocation={activeLocation} />);
+            formDataContent.push(<List type={type} ref={ref} location={location} key={v4()} onClickDelete={this.onClickDelete} setPropertiesData={this.setProperty} activeLocation={activeLocation} />);
         } else if (type === componentType.IMAGE) {
-            tabContent.push(<Image type={type} ref={ref} location={location} key={`comp-${activeTab}-${index}`} onClickDelete={this.onClickDelete} setPropertiesData={this.setProperty} activeLocation={activeLocation} />);
+            formDataContent.push(<Image type={type} ref={ref} location={location} key={v4()} onClickDelete={this.onClickDelete} setPropertiesData={this.setProperty} activeLocation={activeLocation} />);
         } else if (type === componentType.VIDEO) {
-            tabContent.push(<Video type={type} ref={ref} location={location} key={`comp-${activeTab}-${index}`} onClickDelete={this.onClickDelete} setPropertiesData={this.setProperty} activeLocation={activeLocation} />);
+            formDataContent.push(<Video type={type} ref={ref} location={location} key={v4()} onClickDelete={this.onClickDelete} setPropertiesData={this.setProperty} activeLocation={activeLocation} />);
         } else if (type === componentType.ICON) {
-            tabContent.push(<Icon type={type} ref={ref} location={location} key={`comp-${activeTab}-${index}`} onClickDelete={this.onClickDelete} setPropertiesData={this.setProperty} activeLocation={activeLocation} />);
+            formDataContent.push(<Icon type={type} ref={ref} location={location} key={v4()} onClickDelete={this.onClickDelete} setPropertiesData={this.setProperty} activeLocation={activeLocation} />);
         } else if (type === componentType.DIVIDER) {
-            tabContent.push(<Divider type={type} ref={ref} location={location} key={`comp-${activeTab}-${index}`} onClickDelete={this.onClickDelete} setPropertiesData={this.setProperty} activeLocation={activeLocation} />);
+            formDataContent.push(<Divider type={type} ref={ref} location={location} key={v4()} onClickDelete={this.onClickDelete} setPropertiesData={this.setProperty} activeLocation={activeLocation} />);
         } else if (type === componentType.BUTTON) {
-            tabContent.push(<Button type={type} ref={ref} location={location} key={`comp-${activeTab}-${index}`} onClickDelete={this.onClickDelete} setPropertiesData={this.setProperty} activeLocation={activeLocation} />);
+            formDataContent.push(<Button type={type} ref={ref} location={location} key={v4()} onClickDelete={this.onClickDelete} setPropertiesData={this.setProperty} activeLocation={activeLocation} />);
         }
-        tabContentRef.push(ref);
-        formDataContent[activeTab] = tabContent;
+        this.formContentRefs.push(ref);
         this.setState({
             formDataContent,
         });
-        this.formContentRefs[activeTab] = tabContentRef;
     }
 
     displayContent = () => {
@@ -127,8 +121,8 @@ export class WorkflowEditor extends Component {
         const retData = [];
         for (let i = 0; i < formDataContent.length; i++) {
             retData.push(
-                <div className="formDataContent" key={formDataContent[i]}>
-                    {formDataContent[i] && formDataContent[i].map(value => value)}
+                <div className="formDataContent" key={`page-component-${i}`}>
+                    {formDataContent[i]}
                 </div>
             );
         }
@@ -137,25 +131,16 @@ export class WorkflowEditor extends Component {
 
     onClickDelete = (location) => {
         const { formDataContent } = this.state;
+        console.log(formDataContent);
         if (location) {
-            const { tab, index } = location;
-            const refs = this.formContentRefs[tab];
-            let number = -1;
-            for (let i = 0; i < refs.length; i++) {
-                if (refs[i] && refs[i].current && refs[i].current.props.location.index === index) {
-                    number = i;
-                    break;
-                }
-            }
-            if (number !== -1) {
-                formDataContent[tab].splice(number, 1);
-                this.formContentRefs[tab].splice(number, 1);
-                this.setState({
-                    formDataContent,
-                    activeLocation: {},
-                    showRightPart: false
-                });
-            }
+            const { index } = location;
+            this.formContentRefs.splice(index, 1);
+            formDataContent.splice(index, 1);
+            this.setState({
+                formDataContent,
+                activeLocation: {},
+                showRightPart: false
+            });
         }
     };
 
@@ -179,7 +164,7 @@ export class WorkflowEditor extends Component {
         }
         this.propertiesRef.current.setProperties(data, location);
     }
-    
+
     showRightbar = () => {
         const { showRightPart } = this.state;
         let showright = !showRightPart;
@@ -190,12 +175,9 @@ export class WorkflowEditor extends Component {
 
     changeWorkProperties = (formdata) => {
         const { activeLocation } = this.state;
-        const tab = this.formContentRefs[activeLocation.index];
-        if (tab) {
-            const ref = tab[activeLocation.index];
-            if (ref) {
-                ref.current.changeProperties(formdata);
-            }
+        const ref = this.formContentRefs[activeLocation.index];
+        if (ref) {
+            ref.current.changeProperties(formdata);
         }
     }
 
